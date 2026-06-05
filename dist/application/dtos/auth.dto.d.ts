@@ -1,0 +1,22 @@
+export interface RegisterDto {
+    nombre: string;
+    apellido: string;
+    email: string;
+    password: string;
+    role: 'admin' | 'empleado';
+}
+export interface LoginDto {
+    email: string;
+    password: string;
+}
+export interface AuthResponseDto {
+    token: string;
+    user: {
+        id: string;
+        nombre: string;
+        apellido: string;
+        email: string;
+        role: string;
+    };
+}
+//# sourceMappingURL=auth.dto.d.ts.map

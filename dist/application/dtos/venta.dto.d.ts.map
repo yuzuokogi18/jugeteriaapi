@@ -1,0 +1,1 @@
+{"version":3,"file":"venta.dto.d.ts","sourceRoot":"","sources":["../../../src/application/dtos/venta.dto.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,qBAAqB;IACpC,UAAU,EAAE,MAAM,CAAC;IACnB,QAAQ,EAAE,MAAM,CAAC;CAClB;AAED,MAAM,WAAW,cAAc;IAC7B,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,UAAU,EAAE,UAAU,GAAG,SAAS,GAAG,eAAe,CAAC;IACrD,SAAS,EAAE,qBAAqB,EAAE,CAAC;CACpC"}
