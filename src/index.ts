@@ -1,15 +1,10 @@
 import express from 'express';
-
 import dotenv from 'dotenv';
 
 import authRoutes from './presentation/routes/auth.routes';
-
 import categoriasRoutes from './presentation/routes/categorias.routes';
-
 import productosRoutes from './presentation/routes/productos.routes';
-
 import clientesRoutes from './presentation/routes/clientes.routes';
-
 import ventasRoutes from './presentation/routes/ventas.routes';
 
 import {
@@ -21,73 +16,44 @@ dotenv.config();
 
 const app = express();
 
-const PORT =
-  process.env.PORT ?? 3000;
+// ✅ FIX: PORT siempre number (evita error TS)
+const PORT: number = Number(process.env.PORT) || 3000;
 
+// Asegurar carpeta de imágenes
 ensureProductosImagesDir();
 
+// Middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
+// Archivos estáticos
+app.use('/static', express.static(publicDir));
 
-app.use(
-  '/static',
-  express.static(publicDir)
-);
+// Rutas
+app.use('/api/auth', authRoutes);
+app.use('/api/categorias', categoriasRoutes);
+app.use('/api/productos', productosRoutes);
+app.use('/api/clientes', clientesRoutes);
+app.use('/api/ventas', ventasRoutes);
 
-app.use(
-  '/api/auth',
-  authRoutes
-);
+// Health check
+app.get('/health', (_req, res) => {
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+  });
+});
 
-app.use(
-  '/api/categorias',
-  categoriasRoutes
-);
-
-app.use(
-  '/api/productos',
-  productosRoutes
-);
-
-app.use(
-  '/api/clientes',
-  clientesRoutes
-);
-
-app.use(
-  '/api/ventas',
-  ventasRoutes
-);
-
-app.get(
-  '/health',
-  (_req, res) => {
-
-    res.json({
-      status: 'ok',
-      timestamp:
-        new Date().toISOString(),
-    });
-  }
-);
-
+// 404
 app.use((_req, res) => {
-
   res.status(404).json({
     error: 'Ruta no encontrada',
   });
 });
 
-app.listen(PORT, () => {
-
-  console.log(
-    `ToyStore API corriendo en http://localhost:${PORT}`
-  );
+// ✅ IMPORTANTE: escuchar en todas las interfaces (EC2)
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 ToyStore API corriendo en puerto ${PORT}`);
 });
 
 export default app;
